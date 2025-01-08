@@ -31,3 +31,15 @@ dane_07 <- dplyr::summarise(dane, dplyr::across(dplyr::everything(),\(i)mean(i))
 
 #across na wartosciach  numerycznych
 dane_08 <- dplyr::summarise(dane, dplyr::across(dplyr::where(\(i)is.numeric(i)),\(i)mean(i)))
+
+#across na wartosciach wiecej niz jedna funkcja
+dane_09 <- dplyr::summarise(dane, dplyr::across(dplyr::where(\(i)is.numeric(i)),list(srednia=\(i)mean(i),mediana=\(i)median(i))))
+
+#potokowanie
+#dodaj nowa kolumne, wynik dodawania wszystkich kolumn do sb
+
+dane_10 <- dplyr::mutate(dane,suma=sepal.length+sepal.width+petal.length+petal.width)
+#zgrupuj te same dane po kolumnie species
+dane_10 <- dplyr::group_by(dane_10, species)
+
+dane_10 <- dplyr::summarise(dplyr::across(dplyr::where(\(i)is.numeric(i),\(i)mean(i))))
